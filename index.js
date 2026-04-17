@@ -1,78 +1,77 @@
 // ─── CONFIGURAÇÃO ───
-const WHATSAPP_NUMBER = '5511959423403'; // Substituir pelo número real (com DDI+DDD, sem espaços ou símbolos)
-
+const WHATSAPP_NUMBER = "5511959115846"; // Substituir pelo número real (com DDI+DDD, sem espaços ou símbolos)
 
 // ─── SCROLL REVEAL ───
-const revealEls = document.querySelectorAll('.reveal');
+const revealEls = document.querySelectorAll(".reveal");
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, i * 80);
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1 });
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add("visible");
+        }, i * 80);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.1 },
+);
 
-revealEls.forEach(el => revealObserver.observe(el));
-
+revealEls.forEach((el) => revealObserver.observe(el));
 
 // ─── NAV SHRINK ON SCROLL ───
-const navbar = document.getElementById('navbar');
+const navbar = document.getElementById("navbar");
 
-window.addEventListener('scroll', () => {
+window.addEventListener("scroll", () => {
   if (window.scrollY > 60) {
-    navbar.style.padding = '0.9rem 4rem';
+    navbar.style.padding = "0.9rem 4rem";
   } else {
-    navbar.style.padding = '1.4rem 4rem';
+    navbar.style.padding = "1.4rem 4rem";
   }
 });
-
 
 // ─── FORM SUBMIT → WHATSAPP ───
 function handleSubmit(e) {
   e.preventDefault();
 
-  const nome        = document.getElementById('nome').value.trim();
-  const telefone    = document.getElementById('telefone').value.trim();
-  const email       = document.getElementById('email').value.trim();
-  const procedimento = document.getElementById('procedimento').value;
-  const preferencia = document.getElementById('preferencia').value.trim();
+  const nome = document.getElementById("nome").value.trim();
+  const telefone = document.getElementById("telefone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const procedimento = document.getElementById("procedimento").value;
+  const preferencia = document.getElementById("preferencia").value.trim();
 
   // Monta mensagem formatada
   const linhas = [
-    '👋 Olá! Gostaria de solicitar um agendamento:',
-    '',
-    `👤 *Nome:* ${nome}`,
-    `📱 *Telefone:* ${telefone}`,
-    email ? `📧 *E-mail:* ${email}` : null,
-    `🦷 *Procedimento:* ${procedimento}`,
-    preferencia ? `📅 *Preferência / Observações:* ${preferencia}` : null,
-    '',
-    '_Mensagem enviada pelo site._',
-  ].filter(l => l !== null);
+    " Olá! Gostaria de solicitar um agendamento:",
+    "",
+    `*Nome:* ${nome}`,
+    `*Telefone:* ${telefone}`,
+    email ? `*E-mail:* ${email}` : null,
+    `*Procedimento:* ${procedimento}`,
+    preferencia ? `*Preferência / Observações:* ${preferencia}` : null,
+    "",
+    "_Mensagem enviada pelo site._",
+  ].filter((l) => l !== null);
 
-  const mensagem = linhas.join('\n');
+  const mensagem = linhas.join("\n");
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
 
   // Exibe tela de confirmação
   mostrarConfirmacao({ nome, telefone, email, procedimento, preferencia });
 
   // Abre WhatsApp em nova aba após pequeno delay (deixa a tela aparecer primeiro)
-  setTimeout(() => window.open(url, '_blank'), 600);
+  setTimeout(() => window.open(url, "_blank"), 600);
 }
-
 
 // ─── TELA DE CONFIRMAÇÃO ───
 function mostrarConfirmacao(dados) {
   // Remove confirmação anterior se houver
-  const anterior = document.getElementById('confirmacao-overlay');
+  const anterior = document.getElementById("confirmacao-overlay");
   if (anterior) anterior.remove();
 
-  const overlay = document.createElement('div');
-  overlay.id = 'confirmacao-overlay';
+  const overlay = document.createElement("div");
+  overlay.id = "confirmacao-overlay";
   overlay.innerHTML = `
     <div class="confirmacao-card" id="confirmacao-card">
 
@@ -84,7 +83,7 @@ function mostrarConfirmacao(dados) {
       </div>
 
       <p class="confirmacao-eyebrow">Solicitação enviada</p>
-      <h2 class="confirmacao-titulo">Quase lá, ${dados.nome.split(' ')[0]}!</h2>
+      <h2 class="confirmacao-titulo">Quase lá, ${dados.nome.split(" ")[0]}!</h2>
       <p class="confirmacao-subtitulo">
         O WhatsApp foi aberto com sua mensagem pronta.<br>
         Basta enviar para confirmar seu agendamento.
@@ -99,11 +98,15 @@ function mostrarConfirmacao(dados) {
           <span class="resumo-label">Contato</span>
           <span class="resumo-valor">${dados.telefone}</span>
         </div>
-        ${dados.preferencia ? `
+        ${
+          dados.preferencia
+            ? `
         <div class="resumo-linha">
           <span class="resumo-label">Observações</span>
           <span class="resumo-valor">${dados.preferencia}</span>
-        </div>` : ''}
+        </div>`
+            : ""
+        }
       </div>
 
       <div class="confirmacao-aviso">
@@ -133,57 +136,61 @@ function mostrarConfirmacao(dados) {
 
   // Anima entrada
   requestAnimationFrame(() => {
-    overlay.classList.add('confirmacao-visivel');
+    overlay.classList.add("confirmacao-visivel");
   });
 }
 
 function reabrirWhatsApp() {
-  const nome        = document.getElementById('nome').value.trim();
-  const telefone    = document.getElementById('telefone').value.trim();
-  const email       = document.getElementById('email').value.trim();
-  const procedimento = document.getElementById('procedimento').value;
-  const preferencia = document.getElementById('preferencia').value.trim();
+  const nome = document.getElementById("nome").value.trim();
+  const telefone = document.getElementById("telefone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const procedimento = document.getElementById("procedimento").value;
+  const preferencia = document.getElementById("preferencia").value.trim();
 
   const linhas = [
-    '👋 Olá! Gostaria de solicitar um agendamento:',
-    '',
+    "👋 Olá! Gostaria de solicitar um agendamento:",
+    "",
     `👤 *Nome:* ${nome}`,
     `📱 *Telefone:* ${telefone}`,
     email ? `📧 *E-mail:* ${email}` : null,
     `🦷 *Procedimento:* ${procedimento}`,
     preferencia ? `📅 *Preferência / Observações:* ${preferencia}` : null,
-    '',
-    '_Mensagem enviada pelo site._',
-  ].filter(l => l !== null);
+    "",
+    "_Mensagem enviada pelo site._",
+  ].filter((l) => l !== null);
 
-  const mensagem = linhas.join('\n');
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`, '_blank');
+  const mensagem = linhas.join("\n");
+  window.open(
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`,
+    "_blank",
+  );
 }
 
 function fecharConfirmacao() {
-  const overlay = document.getElementById('confirmacao-overlay');
+  const overlay = document.getElementById("confirmacao-overlay");
   if (!overlay) return;
-  overlay.classList.remove('confirmacao-visivel');
+  overlay.classList.remove("confirmacao-visivel");
   setTimeout(() => overlay.remove(), 400);
 }
 
-
 // ─── ACTIVE NAV LINK HIGHLIGHT ───
-const sections = document.querySelectorAll('section[id]');
+const sections = document.querySelectorAll("section[id]");
 
-window.addEventListener('scroll', () => {
+window.addEventListener("scroll", () => {
   const scrollY = window.scrollY;
 
-  sections.forEach(section => {
-    const sectionTop    = section.offsetTop - 120;
+  sections.forEach((section) => {
+    const sectionTop = section.offsetTop - 120;
     const sectionHeight = section.offsetHeight;
-    const id   = section.getAttribute('id');
+    const id = section.getAttribute("id");
     const link = document.querySelector(`.nav-links a[href="#${id}"]`);
 
     if (link) {
       if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-        document.querySelectorAll('.nav-links a').forEach(a => a.style.color = '');
-        link.style.color = 'var(--gold-light)';
+        document
+          .querySelectorAll(".nav-links a")
+          .forEach((a) => (a.style.color = ""));
+        link.style.color = "var(--gold-light)";
       }
     }
   });
