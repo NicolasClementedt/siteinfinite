@@ -1017,6 +1017,7 @@ footer {
   flex-direction: column;
   justify-content: space-between;
   padding: 10px;
+  overflow-x: hidden;
 }
 
 .footer-bottom {
@@ -1039,6 +1040,12 @@ footer {
   height: 1px;
   background: var(--gold);
   opacity: 0.5;
+}
+
+@media screen and (max-width: 600px) {
+  .map {
+    max-width: 90%; /* Or a specific value like 300px */
+  }
 }
 
 /* ─── ANIMATIONS ─── */
